@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import StaticEntityIndexPage from "@/components/features/entities/static-entity-index-page";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { createSearchParamsCache, parseAsString } from "nuqs/server";
+import { generatePageTitle } from "@/lib/metadata-utils";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: generatePageTitle("Services", "/dashboard/services"),
+  };
+}
 
 export default async function ServicesPage({
   searchParams,
@@ -48,8 +56,12 @@ export default async function ServicesPage({
 
   const items = services || [];
 
-  // Redirect to settings/services to keep management under settings
-  // Note: import redirect from next/navigation instead of rendering here
-  const { redirect } = await import("next/navigation");
-  redirect("/dashboard/settings/services");
+  return (
+    <StaticEntityIndexPage
+      entity="services"
+      supabase={supabase as any}
+      initial={initial}
+      items={items}
+    />
+  );
 }

@@ -4,7 +4,7 @@ import {
   FileText,
   Users,
   NotebookTabs,
-  Wrench,
+  Package,
 } from "lucide-react";
 
 export interface NavigationItem {
@@ -45,7 +45,7 @@ export function getDashboardNavigation(): NavigationItem[] {
     {
       name: "Services",
       href: "/dashboard/services",
-      icon: Wrench,
+      icon: Package,
     },
   ];
 }
