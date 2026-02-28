@@ -1,0 +1,974 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Shared subtle border utility for cards/sections */
+.minimal-border {
+  border: 1px solid hsl(var(--border) / 0.6);
+}
+
+/* Milkdown editor */
+[data-milkdown-root] .ProseMirror {
+  min-height: 420px;
+  outline: none;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+[data-milkdown-root] .ProseMirror > * + * {
+  margin-top: 0.8rem;
+}
+
+[data-milkdown-root] .ProseMirror h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+[data-milkdown-root] .ProseMirror h2 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+[data-milkdown-root] .ProseMirror h3 {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+[data-milkdown-root] .ProseMirror h4,
+[data-milkdown-root] .ProseMirror h5,
+[data-milkdown-root] .ProseMirror h6 {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+[data-milkdown-root] .ProseMirror a {
+  color: hsl(var(--foreground));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+[data-milkdown-root] .ProseMirror ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+[data-milkdown-root] .ProseMirror ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+[data-milkdown-root] .ProseMirror li + li {
+  margin-top: 0.25rem;
+}
+
+[data-milkdown-root] .ProseMirror img {
+  display: block;
+  width: 60%;
+  max-width: 60%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0.5rem;
+}
+
+[data-milkdown-root] .ProseMirror img[src*="#wide"],
+[data-milkdown-root] .ProseMirror img[src*="?size=wide"],
+[data-milkdown-root] .ProseMirror img[src*="&size=wide"] {
+  width: 100%;
+  max-width: 100%;
+}
+
+[data-milkdown-root] .ProseMirror hr {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border: 0;
+  border-top: 1px solid rgba(115, 115, 115, 0.5);
+}
+
+@layer base {
+  html {
+    @apply overflow-x-hidden;
+  }
+  /* Override any potential blur filters */
+  :root, html, body, #__next, [data-radix-popper-content-wrapper], [data-dialog],
+  [role="dialog"], [role="combobox"], .radix-popover, .radix-popper {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Ensure dropdowns and popovers are opaque */
+  [data-radix-popper-content-wrapper],
+  [data-radix-popover-content],
+  .radix-popover-content,
+  .radix-popper-content {
+    background-color: var(--popover) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+
+  /* Ensure dialogs are opaque */
+  [data-radix-dialog-content],
+  .radix-dialog-content,
+  [role="dialog"] {
+    background-color: var(--background) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+
+  /* Delete/confirm item modal: white background, soft border */
+  [data-confirm-dialog-content] {
+    background-color: #ffffff !important;
+    border-color: #e5e7eb !important;
+  }
+  
+  :root {
+    --background: #f8fafc;
+    --foreground: #0a0a0a;
+
+    --muted: #f1f5f9;
+    --muted-foreground: #737373;
+
+    --popover: #ffffff;
+    --popover-foreground: #0a0a0a;
+
+    --card: #ffffff;
+    --card-foreground: #0a0a0a;
+
+    --border: #e5e5e5;
+    --border-rgb: 229, 229, 229;
+    --input: #e5e5e5;
+    --input-focus: #d4d4d4;
+
+    --primary: #0a0a0a;
+    --primary-foreground: #ffffff;
+
+    --secondary: #f5f5f5;
+    --secondary-foreground: #0a0a0a;
+
+    --accent: #f5f5f5;
+    --accent-foreground: #0a0a0a;
+
+    --destructive: #ff0000;
+    --destructive-foreground: #ffffff;
+
+    --accent-color: oklch(0.8 0.193 100);
+    --ring: var(--accent-color);
+
+    --radius: 0.5rem;
+
+    /* Table specific colors */
+    --table-header: #f5f5f5;
+    --table-header-foreground: #0a0a0a;
+    --table-row: #ffffff;
+    --table-row-foreground: #0a0a0a;
+    --table-row-hover: #f5f5f5;
+    --table-row-hover-foreground: #0a0a0a;
+    --table-border: #e5e5e5;
+    --table-divider: #e5e5e5;
+
+    /* Text colors for different contexts */
+    --text-primary: #0a0a0a;
+    --text-secondary: #525252;
+    --text-muted: #737373;
+    --text-link: #0a0a0a;
+    --text-link-hover: #262626;
+
+    --gray-50: 0 0% 98%;
+    --gray-100: 0 0% 96.1%;
+    --gray-200: 0 0% 88%;
+    --gray-300: 0 0% 85%;
+    --gray-400: 0 0% 75%;
+    --gray-500: 0 0% 62.7%;
+    --gray-600: 0 0% 45.1%;
+    --gray-700: 0 0% 32%;
+    --gray-800: 0 0% 23%;
+    --gray-900: 0 0% 9%;
+    --gray-950: 0 0% 4%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: #0f0f0f;
+    --foreground: #ffffff;
+
+    --muted: #1a1a1a;
+    --muted-foreground: #a3a3a3;
+
+    --popover: #0f0f0f;
+    --popover-foreground: #ffffff;
+
+    --card: #141414;
+    --card-foreground: #ffffff;
+
+    --border: #262626;
+    --border-rgb: 38, 38, 38;
+    --input: #262626;
+    --input-focus: #404040;
+
+    --primary: #ffffff;
+    --primary-foreground: #0a0a0a;
+
+    --secondary: #1a1a1a;
+    --secondary-foreground: #ffffff;
+
+    --accent: #1a1a1a;
+    --accent-foreground: #ffffff;
+
+    --destructive: #ff0000;
+    --destructive-foreground: #ffffff;
+
+    --accent-color: oklch(0.8 0.193 100);
+    --ring: var(--accent-color);
+
+    /* Table specific colors for dark mode */
+    --table-header: #1a1a1a;
+    --table-header-foreground: #ffffff;
+    --table-row: #0f0f0f;
+    --table-row-foreground: #ffffff;
+    --table-row-hover: #1a1a1a;
+    --table-row-hover-foreground: #ffffff;
+    --table-border: #262626;
+    --table-divider: #262626;
+
+    /* Text colors for different contexts in dark mode */
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --text-muted: #737373;
+    --text-link: #ffffff;
+    --text-link-hover: #e5e5e5;
+
+    --gray-50: 0 0% 14.9%;
+    --gray-100: 0 0% 23%;
+    --gray-200: 0 0% 20%;
+    --gray-300: 0 0% 25%;
+    --gray-400: 0 0% 35%;
+    --gray-500: 0 0% 45%;
+    --gray-600: 0 0% 55%;
+    --gray-700: 0 0% 65%;
+    --gray-800: 0 0% 75%;
+    --gray-900: 0 0% 85%;
+    --gray-950: 0 0% 95%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+
+  * {
+    @apply border-[hsl(var(--border))];
+  }
+
+  body {
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))] overflow-x-hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  .text-default {
+    @apply text-[var(--text-primary)];
+  }
+
+  .text-secondary {
+    @apply text-[var(--text-secondary)];
+  }
+
+  .text-muted {
+    @apply text-[var(--text-muted)];
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-[var(--text-primary)];
+  }
+
+  .page-subtitle {
+    @apply text-[var(--text-secondary)];
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-[var(--text-primary)];
+  }
+
+  .back-button {
+    @apply text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors;
+  }
+
+  .table-header {
+    @apply bg-[var(--table-header)] text-[var(--table-header-foreground)] font-medium sticky top-0 z-10;
+  }
+
+  .table-row {
+    @apply bg-[var(--table-row)] text-[var(--table-row-foreground)] border-[var(--table-divider)];
+  }
+
+  .table-row-hover {
+    @apply hover:bg-[var(--table-row-hover)] hover:text-[var(--table-row-hover-foreground)];
+  }
+
+  .table-cell {
+    @apply border-b border-[var(--table-divider)] p-4 whitespace-nowrap;
+  }
+
+  .link-text {
+    @apply text-[var(--text-link)] hover:text-[var(--text-link-hover)] hover:underline;
+  }
+
+  .search-icon {
+    @apply text-[var(--text-secondary)];
+  }
+
+  .minimal-shadow {
+    @apply shadow-sm;
+  }
+
+  .minimal-border {
+    @apply border border-[var(--border)];
+  }
+
+  .minimal-border-r {
+    @apply border-r border-[var(--border)];
+  }
+
+  .minimal-border-b {
+    @apply border-b border-[var(--border)];
+  }
+
+  .minimal-input {
+    @apply border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] p-2 rounded-[var(--radius)] focus:outline-none focus:border-[var(--ring)];
+  }
+
+  .minimal-button {
+    @apply bg-[var(--primary)] text-[var(--primary-foreground)] px-4 py-2 rounded-[var(--radius)] font-medium hover:opacity-90 transition-opacity;
+  }
+
+  .minimal-button-outline {
+    @apply bg-transparent text-[var(--primary)] border border-[var(--border)] px-4 py-2 rounded-[var(--radius)] font-medium hover:bg-[var(--secondary)];
+  }
+
+  .pill {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-[var(--secondary)] text-[var(--secondary-foreground)];
+  }
+
+  .pill-dark {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-[var(--gray-500)] text-[var(--gray-950)];
+  }
+
+  .spinner {
+    @apply border-2 border-[var(--border)] border-t-[var(--primary)] rounded-full animate-spin;
+  }
+
+  .logo-svg {
+    @apply fill-[hsl(var(--foreground))];
+  }
+
+  /* Logo inversion for dark mode - since SVG has hardcoded black fill */
+  .dark img[src="/envisioning.svg"] {
+    filter: invert(1);
+  }
+  
+  /* Explicitly remove backdrop filter from all dialog and popover elements */
+  [data-radix-popper-content-wrapper],
+  [role="dialog"],
+  [role="combobox"],
+  .radix-popover-content,
+  .radix-popper,
+  [data-state="open"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+  
+  /* Ensure all form inputs use the accent color for focus rings */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+  }
+
+  /* Remove outline from command palette input - higher specificity */
+  input[cmdk-input]:focus,
+  input[cmdk-input]:focus-visible,
+  input[cmdk-input]:active,
+  [cmdk-input]:focus,
+  [cmdk-input]:focus-visible,
+  [cmdk-input]:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline-width: 0 !important;
+    outline-style: none !important;
+    outline-offset: 0 !important;
+  }
+
+  /* Force background on command palette - white in light mode, black in dark mode */
+  [cmdk-root],
+  [cmdk-root] > *,
+  [role="dialog"][id^="radix-"] > div[cmdk-root] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+  }
+
+  .dark [cmdk-root],
+  .dark [cmdk-root] > *,
+  .dark [role="dialog"][id^="radix-"] > div[cmdk-root] {
+    background-color: #0f0f0f !important;
+    background: #0f0f0f !important;
+  }
+  
+  /* Override combobox focus to use monochrome styling */
+  [role="combobox"]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px #9ca3af !important;
+    border-color: #9ca3af !important;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.minimal-shadow {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.minimal-border {
+  border: 1px solid var(--border);
+}
+
+.minimal-border-r {
+  border-right: 1px solid var(--border);
+}
+
+.minimal-border-b {
+  border-bottom: 1px solid var(--border);
+}
+
+.minimal-button {
+  @apply bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 rounded-md;
+}
+
+.spinner {
+  border-color: var(--border);
+  border-top-color: var(--primary);
+}
+
+.pill {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-[var(--secondary)] text-[var(--secondary-foreground)];
+}
+
+/* Override default table styling */
+table {
+  border-color: hsl(var(--gray-100)) !important;
+}
+
+table tr {
+  border-color: hsl(var(--gray-100)) !important;
+}
+
+table td, table th {
+  border-color: hsl(var(--gray-100)) !important;
+}
+
+table tbody {
+  border-color: hsl(var(--gray-100)) !important;
+}
+
+/* Table with rounded corners that preserves row dividers */
+.rounded-table-container {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(var(--border-rgb), 0.7);
+  overflow: hidden;
+  background-color: var(--background);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.rounded-table-container table {
+  width: 100%;
+  border-collapse: collapse !important;
+  border-spacing: 0;
+}
+
+.rounded-table-container tbody tr {
+  border-bottom: 1px solid rgba(var(--border-rgb), 0.4) !important;
+}
+
+.rounded-table-container tbody tr:last-child {
+  border-bottom: none !important;
+}
+
+.rounded-table-container thead tr {
+  border-bottom: 1px solid rgba(var(--border-rgb), 0.5) !important;
+}
+
+.rounded-table-container tbody tr:hover {
+  background-color: var(--accent);
+}
+
+.rounded-table-container th {
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--table-header-foreground);
+  background-color: var(--table-header);
+}
+
+.rounded-table-container td {
+  padding: 1rem 1.5rem;
+  color: var(--foreground);
+}
+
+/* Maintain the rounded corners */
+.rounded-table-container thead tr:first-child th:first-child {
+  border-top-left-radius: 0.5rem;
+}
+
+.rounded-table-container thead tr:first-child th:last-child {
+  border-top-right-radius: 0.5rem;
+}
+
+.rounded-table-container tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+
+.rounded-table-container tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+
+/* Ensure pill-dark styling is applied with higher specificity */
+.pill-dark {
+  background-color: hsl(var(--gray-500)) !important;
+  color: hsl(var(--gray-950)) !important;
+}
+
+
+
+/* User avatar styling */
+.user-avatar {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: hsl(var(--gray-100));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: hsl(var(--gray-700));
+  border: 1px solid hsl(var(--gray-200));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+}
+
+.dark .user-avatar {
+  background-color: hsl(var(--gray-800));
+  color: hsl(var(--gray-300));
+  border-color: hsl(var(--gray-700));
+}
+
+/* Color classes will override background and text color */
+.user-avatar.bg-blue-100 { background-color: #dbeafe !important; }
+.user-avatar.bg-green-100 { background-color: #dcfce7 !important; }
+.user-avatar.bg-purple-100 { background-color: #f3e8ff !important; }
+.user-avatar.bg-yellow-100 { background-color: #fef9c3 !important; }
+.user-avatar.bg-pink-100 { background-color: #fce7f3 !important; }
+.user-avatar.bg-indigo-100 { background-color: #e0e7ff !important; }
+.user-avatar.bg-red-100 { background-color: #fee2e2 !important; }
+.user-avatar.bg-orange-100 { background-color: #ffedd5 !important; }
+
+.user-avatar.text-blue-800 { color: #1e40af !important; }
+.user-avatar.text-green-800 { color: #166534 !important; }
+.user-avatar.text-purple-800 { color: #6b21a8 !important; }
+.user-avatar.text-yellow-800 { color: #854d0e !important; }
+.user-avatar.text-pink-800 { color: #9d174d !important; }
+.user-avatar.text-indigo-800 { color: #3730a3 !important; }
+.user-avatar.text-red-800 { color: #991b1b !important; }
+.user-avatar.text-orange-800 { color: #9a3412 !important; }
+
+/* Dark mode overrides for colored avatars */
+.dark .user-avatar.bg-blue-100 { background-color: #172554 !important; color: #bfdbfe !important; }
+.dark .user-avatar.bg-green-100 { background-color: #14532d !important; color: #bbf7d0 !important; }
+.dark .user-avatar.bg-purple-100 { background-color: #581c87 !important; color: #e9d5ff !important; }
+.dark .user-avatar.bg-yellow-100 { background-color: #713f12 !important; color: #fef08a !important; }
+.dark .user-avatar.bg-pink-100 { background-color: #831843 !important; color: #fbcfe8 !important; }
+.dark .user-avatar.bg-indigo-100 { background-color: #312e81 !important; color: #c7d2fe !important; }
+.dark .user-avatar.bg-red-100 { background-color: #7f1d1d !important; color: #fecaca !important; }
+.dark .user-avatar.bg-orange-100 { background-color: #7c2d12 !important; color: #fed7aa !important; }
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+/* Kanban drag and drop styles */
+.kanban-card-dragging {
+  opacity: 0.5;
+  transform: rotate(5deg);
+  z-index: 1000;
+}
+
+.kanban-column-drag-over {
+  background-color: hsl(var(--muted) / 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .kanban-column-drag-over {
+  background-color: hsl(var(--muted) / 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.kanban-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.kanban-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .kanban-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.kanban-card:active {
+  transform: translateY(0);
+}
+
+/* Kanban column outline transitions */
+.kanban-column {
+  transition: outline 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Drop preview styles */
+.kanban-drop-preview {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, hsl(var(--ring)), transparent);
+  border-radius: 2px;
+  margin: 8px 0;
+  opacity: 0.8;
+  animation: dropPreviewPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dropPreviewPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scaleX(0.95);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scaleX(1.05);
+  }
+}
+
+.kanban-drop-zone {
+  border: 2px dashed hsl(var(--ring) / 0.6);
+  background: hsl(var(--muted) / 0.3);
+  transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.kanban-drop-zone:hover {
+  border-color: hsl(var(--ring));
+  background: hsl(var(--muted) / 0.5);
+}
+
+/* Print styles for PDF export */
+@media print {
+  /* Hide elements that shouldn't be printed */
+  .no-print,
+  nav,
+  footer,
+  button:not(.print-visible),
+  .print-hidden {
+    display: none !important;
+  }
+  
+  /* Keep the main offer header visible */
+  header {
+    display: flex !important;
+  }
+
+  /* Hide accept widget and download buttons sections */
+  .no-print,
+  [class*="accept"],
+  [class*="Accept"],
+  [class*="download"],
+  [class*="Download"] {
+    display: none !important;
+  }
+
+  /* Ensure proper page setup */
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+
+  /* Reset colors for print (black and white) */
+  body,
+  html,
+  #__next,
+  [class*="bg-neutral"],
+  [class*="bg-gray"] {
+    background: white !important;
+    background-color: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-size: 11px !important;
+  }
+
+  /* Reduce overall sizes */
+  * {
+    font-size: 11px !important;
+  }
+
+  h1 {
+    font-size: 18px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  /* Header h1 should be smaller but visible */
+  header h1 {
+    font-size: 16px !important;
+    margin-bottom: 4px !important;
+  }
+
+  h2 {
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+  }
+
+  h3 {
+    font-size: 13px !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* Reduce padding and margins */
+  .p-4, .p-6, .p-8 {
+    padding: 8px !important;
+  }
+
+  .px-4, .px-6, .px-8 {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .py-3, .py-4, .py-6 {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+
+  .mb-4, .mb-6, .mb-8 {
+    margin-bottom: 8px !important;
+  }
+
+  .mt-4, .mt-6, .mt-8 {
+    margin-top: 8px !important;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 6px !important;
+  }
+
+  /* Top boxes side-by-side layout - force 2 columns in print */
+  /* Override any grid that has grid-cols-1 to be 2 columns in print */
+  .grid {
+    display: grid !important;
+  }
+  
+  /* Target the organization/corporate entity grid specifically */
+  .mb-8.grid,
+  div.mb-8[class*="grid"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+  
+  /* Also override any grid-cols-1 class */
+  [class*="grid-cols-1"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Ensure text is readable */
+  * {
+    color: black !important;
+  }
+
+  /* Force all backgrounds to white for print */
+  *,
+  body,
+  html,
+  div,
+  section,
+  article,
+  main,
+  .bg-card,
+  .bg-white,
+  .bg-muted,
+  .bg-neutral-100,
+  .bg-neutral-50,
+  .bg-gray-50,
+  .bg-gray-100,
+  [class*="bg-"] {
+    background: white !important;
+    background-color: white !important;
+  }
+  
+  /* Keep borders visible on cards */
+  .bg-card,
+  .minimal-border {
+    border: 1px solid #000 !important;
+  }
+
+  /* Keep borders visible */
+  table,
+  th,
+  td {
+    border: 1px solid #000 !important;
+    border-collapse: collapse !important;
+  }
+
+  .minimal-border,
+  .border,
+  .border-t,
+  .border-b {
+    border-color: #000 !important;
+  }
+
+  /* Reduce table padding */
+  table th,
+  table td {
+    padding: 4px 6px !important;
+  }
+
+  /* Prevent page breaks inside important sections */
+  .print-keep-together {
+    page-break-inside: avoid;
+  }
+
+  /* Ensure links are visible */
+  a {
+    color: black !important;
+    text-decoration: underline !important;
+  }
+
+  /* Remove shadows and effects for cleaner print */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Logo sizing - keep header logo visible but compact */
+  header img {
+    max-height: 35px !important;
+    width: auto !important;
+    height: auto !important;
+  }
+  
+  /* Other images can be smaller */
+  img:not(header img) {
+    max-height: 30px !important;
+    width: auto !important;
+  }
+
+  /* Compact header */
+  header {
+    margin-bottom: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  /* Ensure header content is visible */
+  header h1 {
+    font-size: 16px !important;
+    margin: 0 !important;
+  }
+  
+  header .text-xl {
+    font-size: 16px !important;
+  }
+
+  /* Compact services section */
+  .text-xl {
+    font-size: 14px !important;
+  }
+  
+  /* Header text-xl should be visible */
+  header .text-xl {
+    font-size: 16px !important;
+  }
+
+  .text-2xl {
+    font-size: 16px !important;
+  }
+  
+  /* Ensure header logo and text are visible */
+  header .mr-4 {
+    margin-right: 12px !important;
+  }
+  
+  header .flex.items-center {
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  /* Make offer ID gray in print while keeping title black */
+  header h1 span {
+    color: #6b7280 !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
