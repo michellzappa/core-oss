@@ -15,7 +15,7 @@ interface DashboardPageWrapperProps {
  */
 export default function DashboardPageWrapper({
   title = "Dashboard",
-  subtitle = "Welcome to Envisioning",
+  subtitle = "Welcome to Core",
   actions,
   headerContent,
   children,

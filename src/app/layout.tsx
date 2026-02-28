@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Core",
-  description: "Envisioning Core",
+  description: "Core",
   manifest: "/manifest.json",
   icons: {
     icon: [

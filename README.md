@@ -64,6 +64,16 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) and log in.
 
+## Branding
+
+The app ships with placeholder branding ("Envisioning"). To use your own brand, search and replace across the codebase:
+
+- **Product name**: `Envisioning` → your company or product name (UI copy, meta description, dashboard subtitle).
+- **Domain**: `envisioning.com` and `www.envisioning.com` → your public domain (offer redirects and "copy link" URLs in `src/app/offers/view/[id]/page.tsx` and `src/components/features/entities/entity-index-client.tsx`).
+- **Contact email**: `contact@envisioning.com` → your support or contact address (public offer footer in `src/components/entities/offers/public-offer-layout.tsx`).
+- **Internal email filter**: If you use a different domain for team emails, update the `@envisioning.com` / `@envisioning.io` filters in `src/app/dashboard/offers/page.tsx` and `src/components/features/entities/entity-index-page.tsx` so internal visits are excluded from offer analytics.
+- **Logo**: Replace `public/envisioning.svg` with your own logo and update any `alt` or references if you rename the file.
+
 ## Project Structure
 
 ```
